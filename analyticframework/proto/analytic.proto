@@ -9,11 +9,30 @@ message InputStream{
   int64 end_time_millis = 3;
 }
 
+message Point{
+  int32 x = 1;
+  int32 y = 2;
+}
+
 message RegionOfInterest{
-  repeated int64 pixels = 1;
-  string classification = 2;
+  oneof localization {
+    BoundingBox box = 1;
+    PixelMask mask  = 2;
+  }
+
+  string classification = 5;
   float condifence = 3;
   string supplement = 4;
+}
+
+message PixelMask{
+  repeated Point pixel = 1;
+}
+
+message BoundingBox{
+  Point corner = 1;
+  int32 height = 2;
+  int32 width = 3;
 }
 
 // ProcessedStream holds metadata about the processed video

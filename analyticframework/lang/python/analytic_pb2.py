@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='analyticframework',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0e\x61nalytic.proto\x12\x11\x61nalyticframework\"Q\n\x0bInputStream\x12\x0e\n\x06stream\x18\x01 \x01(\x0c\x12\x19\n\x11start_time_millis\x18\x02 \x01(\x03\x12\x17\n\x0f\x65nd_time_millis\x18\x03 \x01(\x03\"b\n\x10RegionOfInterest\x12\x0e\n\x06pixels\x18\x01 \x03(\x03\x12\x16\n\x0e\x63lassification\x18\x02 \x01(\t\x12\x12\n\ncondifence\x18\x03 \x01(\x02\x12\x12\n\nsupplement\x18\x04 \x01(\t\"\x8f\x01\n\x0fProcessedStream\x12\x0e\n\x06stream\x18\x01 \x01(\x0c\x12\x13\n\x0bstart_frame\x18\x02 \x01(\x03\x12\x11\n\tend_frame\x18\x03 \x01(\x03\x12\x12\n\noperations\x18\x04 \x03(\t\x12\x30\n\x03roi\x18\x05 \x03(\x0b\x32#.analyticframework.RegionOfInterest\"A\n\nInputFrame\x12\r\n\x05\x66rame\x18\x01 \x01(\x0c\x12\x11\n\tframe_num\x18\x02 \x01(\x03\x12\x11\n\ttimestamp\x18\x03 \x01(\x02\"=\n\tFrameData\x12\x30\n\x03roi\x18\x01 \x03(\x0b\x32#.analyticframework.RegionOfInterest2\xba\x01\n\x08\x41nalytic\x12\\\n\x12ProcessVideoStream\x12\x1e.analyticframework.InputStream\x1a\".analyticframework.ProcessedStream(\x01\x30\x01\x12P\n\x11ProcessVideoFrame\x12\x1d.analyticframework.InputFrame\x1a\x1c.analyticframework.FrameDatab\x06proto3')
+  serialized_pb=_b('\n\x0e\x61nalytic.proto\x12\x11\x61nalyticframework\"Q\n\x0bInputStream\x12\x0e\n\x06stream\x18\x01 \x01(\x0c\x12\x19\n\x11start_time_millis\x18\x02 \x01(\x03\x12\x17\n\x0f\x65nd_time_millis\x18\x03 \x01(\x03\"\x1d\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\xbf\x01\n\x10RegionOfInterest\x12-\n\x03\x62ox\x18\x01 \x01(\x0b\x32\x1e.analyticframework.BoundingBoxH\x00\x12,\n\x04mask\x18\x02 \x01(\x0b\x32\x1c.analyticframework.PixelMaskH\x00\x12\x16\n\x0e\x63lassification\x18\x05 \x01(\t\x12\x12\n\ncondifence\x18\x03 \x01(\x02\x12\x12\n\nsupplement\x18\x04 \x01(\tB\x0e\n\x0clocalization\"4\n\tPixelMask\x12\'\n\x05pixel\x18\x01 \x03(\x0b\x32\x18.analyticframework.Point\"V\n\x0b\x42oundingBox\x12(\n\x06\x63orner\x18\x01 \x01(\x0b\x32\x18.analyticframework.Point\x12\x0e\n\x06height\x18\x02 \x01(\x05\x12\r\n\x05width\x18\x03 \x01(\x05\"\x8f\x01\n\x0fProcessedStream\x12\x0e\n\x06stream\x18\x01 \x01(\x0c\x12\x13\n\x0bstart_frame\x18\x02 \x01(\x03\x12\x11\n\tend_frame\x18\x03 \x01(\x03\x12\x12\n\noperations\x18\x04 \x03(\t\x12\x30\n\x03roi\x18\x05 \x03(\x0b\x32#.analyticframework.RegionOfInterest\"A\n\nInputFrame\x12\r\n\x05\x66rame\x18\x01 \x01(\x0c\x12\x11\n\tframe_num\x18\x02 \x01(\x03\x12\x11\n\ttimestamp\x18\x03 \x01(\x02\"=\n\tFrameData\x12\x30\n\x03roi\x18\x01 \x03(\x0b\x32#.analyticframework.RegionOfInterest2\xba\x01\n\x08\x41nalytic\x12\\\n\x12ProcessVideoStream\x12\x1e.analyticframework.InputStream\x1a\".analyticframework.ProcessedStream(\x01\x30\x01\x12P\n\x11ProcessVideoFrame\x12\x1d.analyticframework.InputFrame\x1a\x1c.analyticframework.FrameDatab\x06proto3')
 )
 
 
@@ -70,38 +70,24 @@ _INPUTSTREAM = _descriptor.Descriptor(
 )
 
 
-_REGIONOFINTEREST = _descriptor.Descriptor(
-  name='RegionOfInterest',
-  full_name='analyticframework.RegionOfInterest',
+_POINT = _descriptor.Descriptor(
+  name='Point',
+  full_name='analyticframework.Point',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='pixels', full_name='analyticframework.RegionOfInterest.pixels', index=0,
-      number=1, type=3, cpp_type=2, label=3,
-      has_default_value=False, default_value=[],
+      name='x', full_name='analyticframework.Point.x', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='classification', full_name='analyticframework.RegionOfInterest.classification', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='condifence', full_name='analyticframework.RegionOfInterest.condifence', index=2,
-      number=3, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='supplement', full_name='analyticframework.RegionOfInterest.supplement', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='y', full_name='analyticframework.Point.y', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -118,7 +104,145 @@ _REGIONOFINTEREST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=120,
-  serialized_end=218,
+  serialized_end=149,
+)
+
+
+_REGIONOFINTEREST = _descriptor.Descriptor(
+  name='RegionOfInterest',
+  full_name='analyticframework.RegionOfInterest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='box', full_name='analyticframework.RegionOfInterest.box', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mask', full_name='analyticframework.RegionOfInterest.mask', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='classification', full_name='analyticframework.RegionOfInterest.classification', index=2,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='condifence', full_name='analyticframework.RegionOfInterest.condifence', index=3,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='supplement', full_name='analyticframework.RegionOfInterest.supplement', index=4,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='localization', full_name='analyticframework.RegionOfInterest.localization',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=152,
+  serialized_end=343,
+)
+
+
+_PIXELMASK = _descriptor.Descriptor(
+  name='PixelMask',
+  full_name='analyticframework.PixelMask',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pixel', full_name='analyticframework.PixelMask.pixel', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=345,
+  serialized_end=397,
+)
+
+
+_BOUNDINGBOX = _descriptor.Descriptor(
+  name='BoundingBox',
+  full_name='analyticframework.BoundingBox',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='corner', full_name='analyticframework.BoundingBox.corner', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='analyticframework.BoundingBox.height', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='width', full_name='analyticframework.BoundingBox.width', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=399,
+  serialized_end=485,
 )
 
 
@@ -176,8 +300,8 @@ _PROCESSEDSTREAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=221,
-  serialized_end=364,
+  serialized_start=488,
+  serialized_end=631,
 )
 
 
@@ -221,8 +345,8 @@ _INPUTFRAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=366,
-  serialized_end=431,
+  serialized_start=633,
+  serialized_end=698,
 )
 
 
@@ -252,14 +376,27 @@ _FRAMEDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=433,
-  serialized_end=494,
+  serialized_start=700,
+  serialized_end=761,
 )
 
+_REGIONOFINTEREST.fields_by_name['box'].message_type = _BOUNDINGBOX
+_REGIONOFINTEREST.fields_by_name['mask'].message_type = _PIXELMASK
+_REGIONOFINTEREST.oneofs_by_name['localization'].fields.append(
+  _REGIONOFINTEREST.fields_by_name['box'])
+_REGIONOFINTEREST.fields_by_name['box'].containing_oneof = _REGIONOFINTEREST.oneofs_by_name['localization']
+_REGIONOFINTEREST.oneofs_by_name['localization'].fields.append(
+  _REGIONOFINTEREST.fields_by_name['mask'])
+_REGIONOFINTEREST.fields_by_name['mask'].containing_oneof = _REGIONOFINTEREST.oneofs_by_name['localization']
+_PIXELMASK.fields_by_name['pixel'].message_type = _POINT
+_BOUNDINGBOX.fields_by_name['corner'].message_type = _POINT
 _PROCESSEDSTREAM.fields_by_name['roi'].message_type = _REGIONOFINTEREST
 _FRAMEDATA.fields_by_name['roi'].message_type = _REGIONOFINTEREST
 DESCRIPTOR.message_types_by_name['InputStream'] = _INPUTSTREAM
+DESCRIPTOR.message_types_by_name['Point'] = _POINT
 DESCRIPTOR.message_types_by_name['RegionOfInterest'] = _REGIONOFINTEREST
+DESCRIPTOR.message_types_by_name['PixelMask'] = _PIXELMASK
+DESCRIPTOR.message_types_by_name['BoundingBox'] = _BOUNDINGBOX
 DESCRIPTOR.message_types_by_name['ProcessedStream'] = _PROCESSEDSTREAM
 DESCRIPTOR.message_types_by_name['InputFrame'] = _INPUTFRAME
 DESCRIPTOR.message_types_by_name['FrameData'] = _FRAMEDATA
@@ -272,12 +409,33 @@ InputStream = _reflection.GeneratedProtocolMessageType('InputStream', (_message.
   ))
 _sym_db.RegisterMessage(InputStream)
 
+Point = _reflection.GeneratedProtocolMessageType('Point', (_message.Message,), dict(
+  DESCRIPTOR = _POINT,
+  __module__ = 'analytic_pb2'
+  # @@protoc_insertion_point(class_scope:analyticframework.Point)
+  ))
+_sym_db.RegisterMessage(Point)
+
 RegionOfInterest = _reflection.GeneratedProtocolMessageType('RegionOfInterest', (_message.Message,), dict(
   DESCRIPTOR = _REGIONOFINTEREST,
   __module__ = 'analytic_pb2'
   # @@protoc_insertion_point(class_scope:analyticframework.RegionOfInterest)
   ))
 _sym_db.RegisterMessage(RegionOfInterest)
+
+PixelMask = _reflection.GeneratedProtocolMessageType('PixelMask', (_message.Message,), dict(
+  DESCRIPTOR = _PIXELMASK,
+  __module__ = 'analytic_pb2'
+  # @@protoc_insertion_point(class_scope:analyticframework.PixelMask)
+  ))
+_sym_db.RegisterMessage(PixelMask)
+
+BoundingBox = _reflection.GeneratedProtocolMessageType('BoundingBox', (_message.Message,), dict(
+  DESCRIPTOR = _BOUNDINGBOX,
+  __module__ = 'analytic_pb2'
+  # @@protoc_insertion_point(class_scope:analyticframework.BoundingBox)
+  ))
+_sym_db.RegisterMessage(BoundingBox)
 
 ProcessedStream = _reflection.GeneratedProtocolMessageType('ProcessedStream', (_message.Message,), dict(
   DESCRIPTOR = _PROCESSEDSTREAM,
@@ -308,8 +466,8 @@ _ANALYTIC = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=497,
-  serialized_end=683,
+  serialized_start=764,
+  serialized_end=950,
   methods=[
   _descriptor.MethodDescriptor(
     name='ProcessVideoStream',
