@@ -1,6 +1,11 @@
 import cv2 as cv
+import logging
 import numpy as np
 import sys
+
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
+log.info("Importing object detector")
 from object_detector.objectdetection import ObjectDetector
 
 cap  = cv.VideoCapture(0)
@@ -11,6 +16,7 @@ if not cap.isOpened():
 
 face_cascade = cv.CascadeClassifier('/usr/local/Cellar/opencv/4.0.1/share/opencv4/haarcascades/haarcascade_frontalface_default.xml')
 eye_cascade = cv.CascadeClassifier('/usr/local/Cellar/opencv/4.0.1/share/opencv4/haarcascades/haarcascade_eye.xml')
+logging.info("Setting up object detector")
 detector = ObjectDetector(model_path="object_detector/models/ssd_inception_v2_coco_11_06_2017/frozen_inference_graph.pb")
 
 class PhoneFinder:

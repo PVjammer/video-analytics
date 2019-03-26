@@ -1,29 +1,34 @@
 import os
 import cv2 as cv
 import argparse
+import logging
 import numpy as np
 import tensorflow as tf
 import sys
 
-sys.path.append("../object_detector")
+sys.path.append(os.path.join(os.environ['TF_MODEL_PATH'], "research"))
 import object_detector.obj_util as obj_util
 
-sys.path.append("/Users/nicholasburnett/Workspace/ace/video-analytics/external-packages/tensorflow/models/research/")
+sys.path.append(os.environ['TF_MODEL_PATH'])
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
 
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
 
 class ObjectDetector:
 
     def __init__(self, model_path='models/ssd_inception_v2_coco_11_06_2017/frozen_inference_graph.pb',
                     label_path=os.path.join(obj_util.DEFAUALT_LABEL_PATH, 'mscoco_label_map.pbtxt')):
+        log.info("Instantiating object detector")
         self.graph = obj_util.load_model(model_path)
         self.category_index = obj_util.load_label_map(label_path)
         self.sess = tf.Session(graph=self.graph)
         self.model = model_path
         # print(self.category_index)
+        log.info("Model instantiated")
 
     def detect(self, img):
 
