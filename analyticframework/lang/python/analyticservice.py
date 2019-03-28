@@ -14,34 +14,11 @@ from concurrent import futures
 import analytic_pb2
 import analytic_pb2_grpc
 import grpc
-from grpc_health.v1 import health
-from grpc_health.v1 import health_pb2
-from grpc_health.v1 import health_pb2_grpc
+# from grpc_health.v1 import health
+# from grpc_health.v1 import health_pb2
+# from grpc_health.v1 import health_pb2_grpc
 
 from google.protobuf import json_format
-
-def OptOutVideoLocalization(resp):
-    """Opt out of all video localization types for a given video. Modifies resp."""
-    resp.opt_out.extend([analytic_pb2.VIDEO_OPT_OUT_TEMPORAL,
-                         analytic_pb2.VIDEO_OPT_OUT_SPATIAL])
-
-
-def OptOutVideoAll(resp):
-    """Opt out of all video processing for a given video. Modifies resp."""
-    opt_out_video_localization(resp)
-    resp.opt_out.append(analytic_pb2.VIDEO_OPT_OUT_DETECTION)
-
-
-def OptOutVideoLocalization(resp):
-    """Opt out of all video localization types for a given video. Modifies resp."""
-    resp.opt_out.extend([analytic_pb2.VIDEO_OPT_OUT_TEMPORAL,
-                         analytic_pb2.VIDEO_OPT_OUT_SPATIAL])
-
-
-def OptOutVideoAll(resp):
-    """Opt out of all video processing for a given video. Modifies resp."""
-    opt_out_video_localization(resp)
-    resp.opt_out.append(analytic_pb2.VIDEO_OPT_OUT_DETECTION)
 
 
 class _AnalyticServicer(analytic_pb2_grpc.AnalyticServicer):
@@ -50,44 +27,36 @@ class _AnalyticServicer(analytic_pb2_grpc.AnalyticServicer):
     def __init__(self, svc):
         """Create a servicer using the given Service object as implementation."""
         self.svc = svc
+    
+    def ProcessVideoFrame(self, req, ctx):
+        return self.svc._CallEndpoint(selc.svc.PROCESS_FRAME, req, analytic_pb2.FrameData(), ctx)
 
-    def DetectImageManipulation(self, req, ctx):
-        print("Received request")
-        return self.svc._CallEndpoint(self.svc.IMAGE_MANIPULATION, req, analytic_pb2.ImageManipulation(), ctx)
+    def ProcessVideoStream(self, req, ctx):
+        raise NotImplementedError()
 
-    def DetectVideoManipulation(self, req, ctx):
-        return self.svc._CallEndpoint(self.svc.VIDEO_MANIPULATION, req, analytic_pb2.VideoManipulation(), ctx)
-
-    def DetectImageSplice(self, req, ctx):
-        return self.svc._CallEndpoint(self.svc.IMAGE_SPLICE, req, analytic_pb2.ImageSplice(), ctx)
-
-    def DetectImageMetaValidity(self, req, ctx):
-        return self.svc._CallEndpoint(self.svc.IMAGE_META_VALIDITY, req, analytic_pb2.ImageMetaValidity(), ctx)
 
 class AnalyticService:
     """Actual implementation of the service, with function registration."""
 
-    IMAGE_MANIPULATION = 'ImageManipulation'
-    VIDEO_MANIPULATION = 'VideoManipulation'
-    IMAGE_SPLICE = "ImageSplice"
-    IMAGE_META_VALIDITY = "ImageMetaValidity"
+    PROCESS_FRAME = "ProcessFrame"
+    PROCESS_STREAM = "ProcessStream" 
 
-    _ALLOWED_IMPLS = frozenset([IMAGE_MANIPULATION, VIDEO_MANIPULATION, IMAGE_SPLICE, IMAGE_META_VALIDITY])
+    _ALLOWED_IMPLS = frozenset([PROCESS_FRAME])
 
     def __init__(self):
         self._impls = {}
-        self._health_servicer = health.HealthServicer()
+        # self._health_servicer = health.HealthServicer()
 
     def Start(self, analytic_port=50051, max_workers=10, concurrency_safe=False):
         self.concurrency_safe = concurrency_safe
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers),
                              options=(('grpc.so_reuseport', 0),))
         analytic_pb2_grpc.add_AnalyticServicer_to_server(_AnalyticServicer(self), server)
-        health_pb2_grpc.add_HealthServicer_to_server(self._health_servicer, server)
+        # health_pb2_grpc.add_HealthServicer_to_server(self._health_servicer, server)
         if not server.add_insecure_port('[::]:{:d}'.format(analytic_port)):
             raise RuntimeError("can't bind to port {}: already in use".format(analytic_port))
         server.start()
-        self._health_servicer.set('', health_pb2.HealthCheckResponse.SERVING)
+        # self._health_servicer.set('', health_pb2.HealthCheckResponse.SERVING)
         print("Analytic server started on port {} with PID {}".format(analytic_port, os.getpid()), file=sys.stderr)
         return server
 
@@ -106,17 +75,11 @@ class AnalyticService:
             logging.error("Caught exception: %s", e)
             return -1
 
-    def RegisterImageManipulation(self, f):
-        return self._RegisterImpl(self.IMAGE_MANIPULATION, f)
+    def RegisterProcessVideoFrame(self, f):
+        return self._RegisterImpl(self.PROCESS_FRAME, f)
 
-    def RegisterVideoManipulation(self, f):
-        return self._RegisterImpl(self.VIDEO_MANIPULATION, f)
-
-    def RegisterImageSplice(self, f):
-        return self._RegisterImpl(self.IMAGE_SPLICE, f)
-
-    def RegisterImageMetaValidity(self, f):
-        return self._RegisterImpl(self.IMAGE_META_VALIDITY, f)
+    def RegiterPRocessVideoStream(self, f):
+        return self._RegisterImpl(self.PROCESS_STREAM, f) 
 
     def _RegisterImpl(self, type_name, f):
         if type_name not in self._ALLOWED_IMPLS:
@@ -173,6 +136,3 @@ class FIFOContextAbortedError(IOError):
 class FIFOContext:
     def abort(self, code, details):
         raise FIFOContextAbortedError(code, details)
-
-
-c
