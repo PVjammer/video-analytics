@@ -1,0 +1,13 @@
+setup.py
+lang/python/analytic_pb2.py
+lang/python/analytic_pb2_grpc.py
+lang/python/analyticservice.py
+lang/python/ace.egg-info/PKG-INFO
+lang/python/ace.egg-info/SOURCES.txt
+lang/python/ace.egg-info/dependency_links.txt
+lang/python/ace.egg-info/requires.txt
+lang/python/ace.egg-info/top_level.txt
+lang/python/object_detector/__init__.py
+lang/python/object_detector/obj_util.py
+lang/python/object_detector/objectdetection.py
+proto/analytic.proto

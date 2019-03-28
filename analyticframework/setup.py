@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
 pkg_name = 'ace'
 
 setup(name=pkg_name, 
-        pkg_dir={
+        package_dir={
             '':'lang/python',
             },
         version='1.0.0',
@@ -21,6 +21,7 @@ setup(name=pkg_name,
         author='Nick Burnett, Data Machines Corp.',
         author_email='nicholasburnett@datamachines.io',
         url='github.com/PVjammer/video-analytics/analyticframework/lang/py',
+        license='Apache License, Version 2.0',
         packages=find_packages(),
         install_requires=[
             'setuptools==39.0.1',
@@ -30,9 +31,9 @@ setup(name=pkg_name,
             'protobuf==3.6.1',
             ],
         data_files=list(iter_protos("analyticframework/proto")),
-        py_modeules = [
+        py_modules = [
             'analytic_pb2',
-            'analytic_pb2._grpc',
+            'analytic_pb2_grpc',
             'analyticservice',
             'google/rpc/__init__',
             'google/rpc/status_pb2',
