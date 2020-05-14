@@ -1,6 +1,5 @@
 __pycache__
 *.swp
-/**/models
 external-packages
 /**/dist
 /**/build
