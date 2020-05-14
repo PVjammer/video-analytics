@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 *.xml filter=lfs diff=lfs merge=lfs -text
 *.caffemodel filter=lfs diff=lfs merge=lfs -text
 *.meta4 filter=lfs diff=lfs merge=lfs -text
 *.prototxt filter=lfs diff=lfs merge=lfs -text
+=======
+.xml filter=lfs diff=lfs merge=lfs -text
+.caffemodel filter=lfs diff=lfs merge=lfs -text
+.meta4 filter=lfs diff=lfs merge=lfs -text
+.prototxt filter=lfs diff=lfs merge=lfs -text
+>>>>>>> 9ebdf560fa5196fdb087f0037c6f733d2b48be60
