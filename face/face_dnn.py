@@ -23,11 +23,7 @@ def draw_boxes(img, boxes):
     for box in boxes:
         cv2.rectangle(img, (box[0], box[1]), (box[2], box[3]), (0,0,255), 2)
     return img
-<<<<<<< HEAD
-=======
     
-
->>>>>>> 9ebdf560fa5196fdb087f0037c6f733d2b48be60
 
 def main(args):
     model = load_model(args.proto, args.model)
