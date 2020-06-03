@@ -26,19 +26,18 @@ setup(name=pkg_name,
         license='Apache License, Version 2.0',
         packages=["object_detectors"],
         data_files=[
-            ("darknet-files", ["cfg/yolov3.cfg",
-                               "cfg/yolov3-tiny.cfg",
-                               "cfg/coco.data",
-                               "cfg/coco.names"])
+            ("darknet-files", ["darknet-files/cfg/yolov3.cfg",
+                               "darknet-files/cfg/yolov3-tiny.cfg",
+                               "darknet-files/cfg/coco.data",
+                               "darknet-files/cfg/coco.names"])
         ],
         install_requires=[
           'cython',
           'opencv-python>=4.2.0.0',
           'numpy>=1.18.0',
-          'yolo34py>=0.1',
-        #   'yolo34py-gpu>=0.1'
+          'yolo34py',
+          #   'yolo34py-gpu`'
             ],
-        data_files=list(iter_protos(pkg_name)),
         py_modules = [
             'object_detectors.__init__'
             ])
