@@ -14,3 +14,5 @@
 *.dataset filter=lfs diff=lfs merge=lfs -text
 *.names filter=lfs diff=lfs merge=lfs -text
 *.list filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.pbtxt filter=lfs diff=lfs merge=lfs -text
