@@ -1,10 +1,7 @@
 import cv2
-import logging
 import numpy as np
-import os
-import requests
-import sys
-import time
+
+
 
 from vidstreamer import Streamer, analytic_pb2
 
