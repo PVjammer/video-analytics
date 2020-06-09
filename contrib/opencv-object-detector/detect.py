@@ -3,7 +3,7 @@ import numpy as np
 import json
 import os
 
-from vidstreamer import Streamer, analytic_pb2
+from vidstreamer import Streamer, analytic_pb2, StreamerParam
 
 # backends = (cv2.dnn.DNN_BACKEND_DEFAULT, cv2.dnn.DNN_BACKEND_HALIDE, cv2.dnn.DNN_BACKEND_INFERENCE_ENGINE, cv2.dnn.DNN_BACKEND_OPENCV)
 # targets = (cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_OPENCL, cv2.dnn.DNN_TARGET_OPENCL_FP16, cv2.dnn.DNN_TARGET_MYRIAD)
@@ -33,12 +33,20 @@ def process(img, req, resp):
             roi.box.MergeFrom(bounding_box)
             resp.roi.extend([roi])
 
+def load_model(streamer):
+    global net
+    print(streamer.params)
+    net = cv2.dnn.readNetFromTensorflow(streamer.params["model_path"], streamer.params["config_path"])
 
 if __name__ == "__main__":
-    net = cv2.dnn.readNetFromTensorflow(model, config)
+    net = None
     streamer = Streamer(func=process, output_func="render")
-    # streamer.register_output_func(render)
+
+    # Analytic specific parameters
+    params = []
+    params.append(StreamerParam(name="--model_path", default="models/frozen_inference_graph.pb", type=str, helptext="Path of the model to load"))
+    params.append(StreamerParam(name="--config_path", default="models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt", type=str, helptext="Path of the config file to load"))
     try:
-        streamer.run()
+        streamer.run(params, init_func=load_model)
     finally:
         cv2.destroyAllWindows()

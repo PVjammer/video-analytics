@@ -6,57 +6,27 @@ import requests
 import sys
 import time
 
-from pydarknet import Detector, Image
-# from vidstreamer import Streamer
+from vidstreamer import Streamer, analytic_pb2
 
-DARKPY_PATH = os.path.join(sys.prefix, "darknet-files")
-BLOCK_SIZE = 1024
+class DNNDetector:
+    def __init__(self, model_path=None, config_path=None, classes=None, threshold=0.5, cnn_size=(300, 300)):
+        self.net = cv2.dnn.readNet(model_path, config_path)
+        self.cnn_size = cnn_size          
+        self.threshold = threshold
+        self.classes = classes
 
-darknet_config = {
-    "yolov3": {
-        "weights": os.path.join(DARKPY_PATH, "weights/yolov3.weights"),
-        "config": os.path.join(DARKPY_PATH, "cfg/yolov3.cfg"),
-        "data": os.path.join(DARKPY_PATH, "cfg/coco.data"),
-        "weights_url": "https://pjreddie.com/media/files/yolov3.weights" 
-    },
-    "yolov3-tiny": {
-        "weights": os.path.join(DARKPY_PATH, "weights/yolov3-tiny.weights"),
-        "config": os.path.join(DARKPY_PATH, "cfg/yolov3-tiny.cfg"),
-        "data": os.path.join(DARKPY_PATH, "cfg/coco.data"),
-        "weights_url": "https://pjreddie.com/media/files/yolov3-tiny.weights"
-    },
-}
+    def detect(self, img, req=None, resp=None):
+        img_ht, img_width, _ = img.shape
+        self.net.setInput(cv2.dnn.blobFromImage(img, size=self.cnn_size, swapRB=True))
+        output = self.net.forward()
 
-def download_model(model):
-    r = requests.get(darknet_config[model]["weights_url"], stream=True)
-    if not os.path.exists(os.path.join(DARKPY_PATH, "weights")):
-        os.makedirs(os.path.join(DARKPY_PATH, "weights"))
-
-    with open("darknet_config[model]['weights_url']", 'wb') as f:
-        for data in r.iter_content(BLOCK_SIZE):
-            f.write(data)
-    logging.info("File {!s} successfully downloaded. Size: {!s}".format(darknet_config[model]["weights_url"], int(r.headers.get('content-length', 0))))
-
-class Darknet:
-    def __init__(self, model=None, config_path=None, weights_path=None, data_path=None):
-        if not config_path and model:
-            config_path = darknet_config[model]["config"]
-        if not weights_path and model:
-            weights_path = darknet_config[model]["weights"]
-            if not os.path.exists(weights_path):
-                download_model(model)
-        if not data_path and model:
-            data_path = darknet_config[model]["data"]
-
-        
-            
-        
-        self.net = Detector(bytes(config_path, encoding="utf-8"), bytes(weights_path, encoding="utf-8"), 0, 
-                bytes(data_path, encoding="utf-8"))
-
-    def detect(self, frame):
-        dark_frame = Image(frame)
-        results = self.net.detect(dark_frame)
-        del dark_frame
-        return results
-
+        for detection in output[0, 0, :, :]:
+            roi = analytic_pb2.RegionOfInterest()
+            roi.confidence = detection[2]
+            if roi.confidence > self.threshold:
+                roi.classification = self.classes[str(int(detection[1]))]
+                bounding_box = analytic_pb2.BoundingBox(
+                    corner1=analytic_pb2.Point(x=int(detection[3] * img_width), y=int(detection[4] * img_ht)),
+                    corner2=analytic_pb2.Point(x=int(detection[5] * img_width), y=int(detection[6] * img_ht)))  
+                roi.box.MergeFrom(bounding_box)
+                resp.roi.extend([roi])
