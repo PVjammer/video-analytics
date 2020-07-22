@@ -12,7 +12,7 @@ class DNNDetector:
         self.threshold = threshold
         self.classes = classes
 
-    def detect(self, img, req=None, resp=None):
+    def detect(self, img, req, resp):
         img_ht, img_width, _ = img.shape
         self.net.setInput(cv2.dnn.blobFromImage(img, size=self.cnn_size, swapRB=True))
         output = self.net.forward()
@@ -27,3 +27,5 @@ class DNNDetector:
                     corner2=analytic_pb2.Point(x=int(detection[5] * img_width), y=int(detection[6] * img_ht)))  
                 roi.box.MergeFrom(bounding_box)
                 resp.roi.extend([roi])
+
+        return resp
